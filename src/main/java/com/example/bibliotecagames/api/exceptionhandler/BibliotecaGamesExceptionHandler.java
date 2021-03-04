@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -28,7 +29,7 @@ public class BibliotecaGamesExceptionHandler extends ResponseEntityExceptionHand
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {		
 		String mensagemUsuario = messageSource.getMessage("mensagem.parametro.invalido", null, LocaleContextHolder.getLocale());
-		String mensagemDesenvolvedor = ex.getCause().toString();
+		String mensagemDesenvolvedor = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
 		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 		return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
 	}
@@ -50,6 +51,14 @@ public class BibliotecaGamesExceptionHandler extends ResponseEntityExceptionHand
 		}
 		
 		return erros;
+	}
+	
+	@ExceptionHandler({java.util.NoSuchElementException.class})	
+	public ResponseEntity<Object> noSuchElementException(java.util.NoSuchElementException ex, WebRequest request) {
+		String mensagemUsuario = messageSource.getMessage("recurso.nao_encotrado", null, LocaleContextHolder.getLocale());
+		String mensagemDesenvolvedor = ex.toString();
+		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);		
 	}
 	
 	public static class Erro {

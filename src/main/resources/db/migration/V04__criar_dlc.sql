@@ -1,0 +1,8 @@
+CREATE TABLE dlc (
+ codigo   BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+ nome     VARCHAR(50) NOT NULL,
+ cod_jogo BIGINT(20) NOT NULL,
+ ano_lancamento VARCHAR(4) NOT NULL,
+ classificacao VARCHAR(10) NOT NULL,
+ FOREIGN KEY (cod_jogo) REFERENCES jogo (codigo)
+) ENGINE=innoDB DEFAULT CHARSET=utf8;
