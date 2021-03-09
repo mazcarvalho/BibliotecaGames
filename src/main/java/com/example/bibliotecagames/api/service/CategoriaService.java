@@ -17,17 +17,17 @@ public class CategoriaService {
 	private CategoriaRepository categoriaRepository;
 	
 	public Categoria atualizar(Long codigo , Categoria categoria) {
-		Optional<Categoria> categoriaSalva = buscarCategoriaPorCodigo(codigo);
+		Categoria categoriaSalva = buscarCategoriaPorCodigo(codigo);
 		BeanUtils.copyProperties(categoria, categoriaSalva, "codigo");
-		return categoriaRepository.save(categoriaSalva.get());
+		return categoriaRepository.save(categoriaSalva);
 	}
 
-	private Optional<Categoria> buscarCategoriaPorCodigo(Long codigo) {
+	private Categoria buscarCategoriaPorCodigo(Long codigo) {
 		Optional<Categoria> categoriaSalva = categoriaRepository.findById(codigo);
 		if(categoriaSalva.isEmpty()) {
 			throw new java.util.NoSuchElementException();			
 		}
-		return categoriaSalva;
+		return categoriaSalva.get();
 	}
 
 }

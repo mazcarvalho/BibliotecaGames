@@ -28,7 +28,7 @@ public class Jogo {
 	
 	@ManyToOne
 	@JoinColumn(name="cod_produtora")
-	private Produtora cod_produtora;
+	private Produtora produtora;
 	
 	@Column(name="ano_lancamento")
 	private String anoLancamento;
@@ -70,12 +70,12 @@ public class Jogo {
 		this.plataforma = plataforma;
 	}
 
-	public Produtora getCod_produtora() {
-		return cod_produtora;
+	public Produtora getProdutora() {
+		return produtora;
 	}
 
-	public void setCod_produtora(Produtora cod_produtora) {
-		this.cod_produtora = cod_produtora;
+	public void setCod_produtora(Produtora produtora) {
+		this.produtora = produtora;
 	}
 
 	public String getAnoLancamento() {
